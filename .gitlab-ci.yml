@@ -1,0 +1,32 @@
+image: python:3.12-slim
+
+workflow:
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+
+stages: [check, compare]
+
+before_script:
+  - python -m pip install -e '.[dev]'
+
+lint:
+  stage: check
+  script:
+    - ruff check .
+
+test:
+  stage: check
+  script:
+    - pytest
+
+compare:
+  stage: compare
+  # Demonstration only: these are fictional normalized fixtures, not scanner jobs.
+  # Production integration must supply current scanner output and a trusted main baseline.
+  script:
+    - python -m security_report --baseline examples/baseline.json --current examples/current.json --output reports/security-report.md
+  artifacts:
+    when: always
+    paths:
+      - reports/security-report.md

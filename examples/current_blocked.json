@@ -1,0 +1,41 @@
+{
+  "scan_status": "completed",
+  "findings": [
+    {
+      "rule_id": "SQL_INJECTION",
+      "line": 42,
+      "file": "src/users.py",
+      "scanner": "example-sast",
+      "id": "old-high",
+      "message": "Possible SQL injection",
+      "severity": "high"
+    },
+    {
+      "rule_id": "DEBUG",
+      "line": 8,
+      "file": "src/debug.py",
+      "scanner": "example-sast",
+      "id": "old-low",
+      "message": "Debug output",
+      "severity": "low"
+    },
+    {
+      "rule_id": "REDIRECT",
+      "line": 12,
+      "file": "src/login.py",
+      "scanner": "example-sast",
+      "id": "new-medium",
+      "message": "Unchecked redirect target",
+      "severity": "medium"
+    },
+    {
+      "rule_id": "COMMAND_INJECTION",
+      "line": 24,
+      "file": "src/tasks.py",
+      "scanner": "example-sast",
+      "id": "new-critical",
+      "message": "Possible command injection",
+      "severity": "critical"
+    }
+  ]
+}

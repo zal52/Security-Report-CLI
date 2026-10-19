@@ -1,0 +1,32 @@
+{
+  "scan_status": "completed",
+  "findings": [
+    {
+      "rule_id": "SQL_INJECTION",
+      "line": 42,
+      "file": "src/users.py",
+      "scanner": "example-sast",
+      "id": "old-high",
+      "message": "Possible SQL injection",
+      "severity": "high"
+    },
+    {
+      "rule_id": "DEBUG",
+      "line": 8,
+      "file": "src/debug.py",
+      "scanner": "example-sast",
+      "id": "old-low",
+      "message": "Debug output",
+      "severity": "low"
+    },
+    {
+      "rule_id": "REDIRECT",
+      "line": 18,
+      "file": "src/auth.py",
+      "scanner": "example-sast",
+      "id": "resolved-medium",
+      "message": "Unsafe redirect",
+      "severity": "medium"
+    }
+  ]
+}
