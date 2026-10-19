@@ -1,0 +1,49 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    name: Ruff, pytest and CLI (Python 3.12)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: pyproject.toml
+
+      - name: Install project and development tools
+        run: python -m pip install -e '.[dev]'
+
+      - name: Run Ruff
+        run: ruff check .
+
+      - name: Run tests
+        run: python -m pytest -v --junitxml=reports/test-results.xml
+
+      - name: Compare fictional example reports
+        run: python -m security_report --baseline examples/baseline.json --current examples/current.json --output reports/security-report.md
+
+      - name: Show report in workflow summary
+        run: cat reports/security-report.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Save test results and security report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results-and-security-report
+          path: reports/
+          if-no-files-found: warn
+          retention-days: 14

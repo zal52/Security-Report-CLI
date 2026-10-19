@@ -1,5 +1,7 @@
 # Security Report CLI
 
+[![CI](https://github.com/zal52/Security-Report-CLI/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/zal52/Security-Report-CLI/actions/workflows/ci.yml)
+
 A small Python 3.12+ CLI that compares two normalized security reports using stable
 finding IDs. It labels findings as new, existing, or resolved, counts each severity,
 prints a console summary, and writes a Markdown report.
@@ -88,11 +90,24 @@ pytest
 Tests cover comparison categories, moved lines, all severities, empty reports,
 duplicates, validation errors, scanner failure, output errors, and CLI exit codes.
 
+## GitHub Actions
+
+The [CI workflow](https://github.com/zal52/Security-Report-CLI/actions/workflows/ci.yml)
+runs automatically on pushes and pull requests, and can also be started manually.
+It installs the project on Python 3.12, runs Ruff and pytest, and compares the
+passing fictional example reports. Tests include the expected blocking and failed
+scan cases; those are successful tests when the CLI returns the expected exit codes.
+
+The badge above shows the latest main-branch status. Open a workflow run to see
+individual checks, verbose test results, and the generated security report in the
+run summary. Test results (JUnit XML) and the Markdown report are saved as an artifact
+for 14 days, including available files when a check fails. No secrets are required.
+
 ## GitLab CI
 
 The repository is hosted on GitHub, but this configuration runs only in GitLab
 (for example, after importing or mirroring the repository there). It does not
-create a GitHub Actions workflow or perform real security scans.
+perform real security scans. GitHub uses the separate workflow described above.
 
 `.gitlab-ci.yml` uses the official `python:3.12-slim` image. Merge request and
 default-branch pipelines install the project, run Ruff and pytest, then compare
